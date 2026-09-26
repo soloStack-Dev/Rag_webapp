@@ -6,7 +6,7 @@ services:
     container_name: meminfo-mysql
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: mydb
+      MYSQL_DATABASE: ragDB
       MYSQL_USER: user
       MYSQL_PASSWORD: pass123
       MYSQL_ROOT_PASSWORD: root123
@@ -38,7 +38,7 @@ services:
     environment:
       MYSQL_HOST: mysql
       MYSQL_PORT: "3306"
-      MYSQL_DATABASE: mydb
+      MYSQL_DATABASE: ragDB
       MYSQL_USERNAME: user
       MYSQL_PASSWORD: pass123
       PORT: "8080"
