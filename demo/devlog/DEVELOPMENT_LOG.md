@@ -69,3 +69,13 @@ Stack: Spring Boot 4.1.1 / Java 21 / Spring AI 2.0.1 / Gemini / Chroma / MySQL /
 
 - `.\mvnw.cmd test` → 2 tests, 0 failures (`RagAppApplicationTests` context load + `EmbeddingVectorStoreSmokeTests` against real Chroma/Gemini).
 - `.\mvnw.cmd package -DskipTests` → BUILD SUCCESS.
+### 8. Containerize the app (Docker + Compose) and decouple MySQL creds
+
+- Issue: Local dev used oot@localhost (hard-coded in pplication.properties) and the demo had its own compose.yaml referencing .env paths. Docker networking requires the service name (mysql) as MYSQL_HOST. The existing Dockerfile exposed 10000 but server.port defaults to 8080.
+- Fix:
+  - Updated demo/src/main/resources/application.properties to read spring.datasource.* from MYSQL_* env vars (defaults: host mysql, port 3306, db mydb, user user, pass pass123). Kept sslMode removed to align with plain Docker MySQL (Aiven-style SSL only needed for cloud). Also preserved all Gemini/Chroma/RAG settings and spring.config.import=optional:file:.env[.properties].
+  - Changed demo/Dockerfile EXPOSE from 10000 to 8080 to match server.port=.
+  - Created root docker-compose.yml with mysql:8.0 (service mysql, named volumes, healthcheck using mysqladmin ping, network meminfo-net, published 3306 host->3306), and pp built from ./demo using the existing Dockerfile, injecting MYSQL_*/PORT, mounting ./demo/.env as /app/.env:ro, depends_on with service_healthy, published 8080:8080.
+  - Removed superseded demo/compose.yaml.
+- Verification: docker compose up --build brought up healthy meminfo-mysql and meminfo-rag-app (Tomcat on 8080), GET http://localhost:8080/ returned 200 OK.
+

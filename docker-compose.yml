@@ -1,0 +1,60 @@
+name: meminfo-rag
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: meminfo-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass123
+      MYSQL_ROOT_PASSWORD: root123
+    ports:
+      # Host 3306 -> container 3306. Override with MYSQL_HOST_PORT if a local mysqld already owns 3306.
+      - "${MYSQL_HOST_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - meminfo-net
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u root -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 40s
+
+  app:
+    build:
+      context: ./demo
+      dockerfile: Dockerfile
+    image: meminfo-rag-app:local
+    container_name: meminfo-rag-app
+    restart: unless-stopped
+    # Keeps the existing Gemini / Chroma / RAG secrets; .env is injected as env vars
+    # and also mounted so `spring.config.import=optional:file:.env[.properties]` finds it.
+    env_file:
+      - ./demo/.env
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: "3306"
+      MYSQL_DATABASE: mydb
+      MYSQL_USERNAME: user
+      MYSQL_PASSWORD: pass123
+      PORT: "8080"
+    volumes:
+      - ./demo/.env:/app/.env:ro
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - meminfo-net
+
+volumes:
+  mysql-data:
+
+networks:
+  meminfo-net:
+    driver: bridge
