@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="message(msg)"
+     th:classappend="${msg != null and msg.role == 'USER'} ? 'msg-user' : 'msg-assistant'"
+     class="msg mb-3">
+  <div class="msg-bubble">
+    <p class="mb-0" th:text="${msg != null ? msg.content : ''}">Message text</p>
+    <div th:if="${msg != null and msg.role == 'ASSISTANT' and !#strings.isEmpty(msg.sources)}"
+         class="msg-sources small mt-2 pt-2 border-top">
+      <div class="fw-semibold text-uppercase text-muted">Sources</div>
+      <div th:each="line : ${#strings.arraySplit(msg.sources, '|')}" class="msg-source"
+         th:attr="data-source-label=${line}">
+        <span aria-hidden="true">&#128196;</span>
+        <span th:text="${line}">source.pdf &mdash; Page 1</span>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

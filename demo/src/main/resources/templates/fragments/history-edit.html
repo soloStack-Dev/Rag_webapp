@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<li th:fragment="edit-item" th:if="${sess != null}" th:id="'session-' + ${sess.id}" class="history-item list-group-item">
+  <form class="d-flex gap-1"
+        th:hx-post="@{/chat/history/{id}/rename(id=${sess.id})}"
+        hx-target="closest li"
+        hx-swap="outerHTML">
+    <input type="text" name="title" th:value="${sess.title}" maxlength="100" required
+           class="form-control form-control-sm flex-grow-1" aria-label="Session title">
+    <button type="submit" class="btn btn-sm btn-primary">Save</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary"
+            hx-get="/chat/history"
+            hx-target="#sidebar-history"
+            hx-swap="outerHTML">Cancel</button>
+  </form>
+</li>
+</body>
+</html>

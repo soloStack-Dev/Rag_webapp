@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="history" id="sidebar-history" class="overflow-auto" aria-label="Chat history">
+  <ul class="list-group list-group-flush">
+    <li th:if="${#lists.isEmpty(sessions)}" class="list-group-item small text-muted text-center">
+      No conversations yet
+    </li>
+    <th:block th:each="sess : ${sessions}">
+      <li th:if="${sess != null}" th:replace="~{fragments/history-item :: item(sess=${sess})}"></li>
+    </th:block>
+  </ul>
+</nav>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="workspace" class="d-flex flex-column flex-grow-1 overflow-hidden">
+  <div class="chat-header d-flex align-items-center gap-2 px-3">
+    <button type="button" class="btn btn-outline-secondary d-lg-none" data-bs-toggle="offcanvas"
+            data-bs-target="#chatSidebar" aria-label="Toggle sidebar">&#9776;</button>
+    <h6 class="mb-0 flex-grow-1 text-truncate"
+        th:text="${activeSession != null ? activeSession.title : 'memInfo Chat'}">memInfo Chat</h6>
+  </div>
+
+  <div id="chat-messages" class="chat-messages flex-grow-1 overflow-auto p-3">
+    <div th:if="${#lists.isEmpty(messages)}" class="text-center text-muted mt-5">
+      <h5 class="fw-semibold">What would you like to know?</h5>
+      <p class="mb-0">Ask a question about your uploaded documents.</p>
+    </div>
+    <th:block th:if="${!#lists.isEmpty(messages)}">
+      <th:block th:each="msg : ${messages}">
+        <div th:if="${msg != null}" th:replace="~{fragments/message :: message(msg=${msg})}"></div>
+      </th:block>
+    </th:block>
+  </div>
+
+  <div th:if="${activeSession != null}" class="chat-input p-3 border-top bg-white">
+    <form id="chat-form" class="d-flex gap-2"
+          hx-post="/chat/message"
+          hx-target="#chat-workspace"
+          hx-swap="innerHTML"
+          hx-indicator="#chat-indicator">
+      <input type="hidden" name="sessionId" th:value="${activeSession.id}">
+      <input type="text" id="chat-input" name="question" class="form-control"
+             placeholder="Ask a question about your documents&hellip;" autocomplete="off"
+             maxlength="2000" required>
+      <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

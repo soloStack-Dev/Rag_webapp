@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="documents">
+  <div th:if="${uploadError != null}" class="alert alert-warning alert-dismissible fade show small py-2" role="alert">
+    <span th:text="${uploadError}">Upload error</span>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  <div class="px-2 py-1 text-uppercase small fw-semibold text-muted">Documents</div>
+  <ul class="list-group list-group-flush">
+    <li th:if="${#lists.isEmpty(documents)}" class="list-group-item small text-muted">
+      No documents uploaded yet
+    </li>
+    <th:block th:each="doc : ${documents}">
+      <li th:replace="~{fragments/document-item :: doc-item(doc=${doc})}"></li>
+    </th:block>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,151 @@
+:root {
+  --meminfo-primary: #2563eb;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background-color: #f8fafc;
+}
+
+/* Layout */
+.chat-layout {
+  height: calc(100vh - 56px);
+  overflow: hidden;
+}
+
+.chat-sidebar {
+  width: 280px;
+  background-color: #fff;
+  flex-shrink: 0;
+}
+
+.chat-main {
+  min-width: 0;
+}
+
+.chat-header {
+  height: 56px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* Messages */
+.msg {
+  display: flex;
+}
+
+.msg-user {
+  justify-content: flex-end;
+}
+
+.msg-assistant {
+  justify-content: flex-start;
+}
+
+.msg-bubble {
+  max-width: min(68%, 720px);
+  padding: 0.75rem 1rem;
+  border-radius: 0.85rem;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  word-break: break-word;
+  white-space: pre-wrap;
+  line-height: 1.45;
+}
+
+.chat-messages {
+  background-color: #f8fafc;
+}
+
+.msg-user .msg-bubble {
+  background-color: var(--meminfo-primary);
+  color: #fff;
+  border-color: var(--meminfo-primary);
+}
+
+.msg-source {
+  display: flex;
+  gap: 0.4rem;
+  margin-bottom: 0.15rem;
+}
+
+.document-source-mentioned {
+  background-color: #fff7ed;
+  border-left: 3px solid #f97316;
+  font-weight: 600;
+}
+
+.document-indexed {
+  background-color: #f0fdf4;
+  border-left: 3px solid #22c55e;
+}
+
+/* History */
+.history-item a {
+  text-decoration: none;
+  color: #334155;
+}
+
+.history-item.active,
+.history-item.active:hover {
+  background-color: #eaf0ff;
+}
+
+.history-item.active > a {
+  color: var(--meminfo-primary);
+  font-weight: 500;
+}
+
+.btn-xs {
+  padding: 0.1rem 0.35rem;
+  font-size: 0.75rem;
+  line-height: 1.2;
+}
+
+/* Indicators */
+#chat-indicator {
+  display: none;
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background-color: #eef2ff;
+  color: #4338ca;
+  border: 1px solid #c7d2fe;
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08);
+  white-space: nowrap;
+}
+
+#chat-indicator.htmx-request {
+  display: block;
+}
+
+#upload-indicator {
+  display: none;
+}
+
+#upload-indicator.htmx-request {
+  display: inline-block;
+}
+
+/* Hero */
+.hero {
+  min-height: 58vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 991.98px) {
+  .chat-sidebar {
+    width: 100%;
+  }
+
+  .msg-bubble {
+    max-width: 84%;
+  }
+}

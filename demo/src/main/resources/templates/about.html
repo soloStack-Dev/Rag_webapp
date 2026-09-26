@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>memInfo &middot; About</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/meminfo.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="~{fragments/navbar :: navbar('about')}"></header>
+
+<main class="container flex-grow-1 py-5">
+  <section class="text-center mb-5">
+    <h1 class="display-5 fw-bold">About memInfo</h1>
+    <p class="lead text-muted">A grounded, retrieval-augmented knowledge assistant built for your PDFs.</p>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="h4">What is memInfo?</h2>
+    <p>
+      memInfo is a personal enterprise RAG application that converts uploaded PDF knowledge into
+      searchable vector representations. Users can then ask questions and receive answers grounded
+      in the retrieved document content.
+    </p>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="h4">How RAG Works</h2>
+    <ol class="list-group list-group-numbered" style="max-width: 640px;">
+      <li class="list-group-item">PDF documents are uploaded</li>
+      <li class="list-group-item">Text is extracted and cleaned</li>
+      <li class="list-group-item">The text is split into overlapping chunks</li>
+      <li class="list-group-item">Each chunk becomes an embedding vector</li>
+      <li class="list-group-item">Vectors are stored in Chroma</li>
+      <li class="list-group-item">A question is embedded and matched by similarity</li>
+      <li class="list-group-item">Gemini generates a grounded answer from the retrieved context</li>
+    </ol>
+  </section>
+
+  <section class="mb-5">
+    <h2 class="h4 mb-3">Technology Overview</h2>
+    <div class="row g-3">
+      <div class="col-6 col-md-4 col-lg-2"><div class="card h-100"><div class="card-body text-center py-3"><div class="fw-semibold">Spring Boot</div></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="card h-100"><div class="card-body text-center py-3"><div class="fw-semibold">Spring AI</div></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="card h-100"><div class="card-body text-center py-3"><div class="fw-semibold">HTMX</div></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="card h-100"><div class="card-body text-center py-3"><div class="fw-semibold">Bootstrap</div></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="card h-100"><div class="card-body text-center py-3"><div class="fw-semibold">MySQL</div></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="card h-100"><div class="card-body text-center py-3"><div class="fw-semibold">Chroma</div></div></div></div>
+      <div class="col-6 col-md-4 col-lg-2"><div class="card h-100"><div class="card-body text-center py-3"><div class="fw-semibold">Gemini AI</div></div></div></div>
+    </div>
+  </section>
+
+  <section class="mb-2">
+    <h2 class="h4">Privacy &amp; Security</h2>
+    <ul>
+      <li>Credentials and API keys stay server-side and are never sent to the browser.</li>
+      <li>Only PDF uploads are accepted, with a 20 MB size limit.</li>
+      <li>Answers are grounded in your uploaded sources; the assistant will not fabricate facts.</li>
+      <li>Database access uses parameterized JPA operations.</li>
+    </ul>
+  </section>
+</main>
+
+<footer th:replace="~{fragments/footer :: footer}"></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

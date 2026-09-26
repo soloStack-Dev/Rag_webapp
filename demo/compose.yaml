@@ -1,0 +1,13 @@
+services:
+  rag-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: meminfo-rag-app:local
+    env_file:
+      - .env
+    volumes:
+      - ./.env:/app/.env:ro
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

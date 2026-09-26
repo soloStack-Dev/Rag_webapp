@@ -1,0 +1,27 @@
+# Secrets
+.env
+
+# Build output
+target/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Maven wrapper jar
+.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.settings/
+.classpath
+.project
+.factorypath
+.springBeans
+.sts4-cache
+nbproject/private/
+nbbuild/
+dist/

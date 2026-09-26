@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<li th:fragment="doc-item(doc)" th:if="${doc != null}" th:id="'doc-' + ${doc.id}"
+  th:attr="data-doc-id=${doc.id}, data-doc-status=${doc.status}, data-doc-name=${doc.fileName}"
+  th:classappend="${doc.status == 'INDEXED'} ? ' document-indexed'"
+  class="list-group-item">
+  <div class="d-flex align-items-center gap-2">
+    <div class="flex-grow-1 text-truncate">
+      <div class="text-truncate small fw-semibold" th:title="${doc.fileName}" th:text="${doc.fileName}">document.pdf</div>
+      <div class="small text-muted text-truncate">
+        <span th:if="${doc.status == 'INDEXED'}" th:text="'Indexed &middot; ' + ${doc.chunkCount} + ' chunks'">Indexed</span>
+        <span th:if="${doc.status == 'UPLOADED'}" th:text="'Uploaded &middot; waiting'">Waiting</span>
+        <span th:if="${doc.status == 'PROCESSING'}" th:text="'Processing &middot; embedding'">Processing</span>
+        <span th:if="${doc.status == 'FAILED'}" class="text-danger" th:text="${doc.errorMessage} ?: 'Indexing failed'">Failed</span>
+      </div>
+    </div>
+    <span th:if="${doc.status == 'UPLOADED' or doc.status == 'PROCESSING'}"
+          class="spinner-border spinner-border-sm text-secondary" role="status" aria-hidden="true"></span>
+    <span th:if="${doc.status == 'INDEXED'}" class="badge text-bg-success">OK</span>
+    <span th:if="${doc.status == 'FAILED'}" class="badge text-bg-danger">File</span>
+        <button type="button" class="btn btn-outline-danger btn-xs"
+          aria-label="Delete source"
+          title="Delete source"
+          th:hx-delete="@{/documents/{id}(id=${doc.id})}"
+          hx-target="#documents-section"
+            hx-swap="innerHTML"
+          hx-confirm="Delete this source and its indexed data?">&#10005;</button>
+  </div>
+</li>
+</body>
+</html>

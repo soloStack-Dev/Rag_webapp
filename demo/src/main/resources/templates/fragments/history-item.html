@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<li th:fragment="item(sess)" th:id="'session-' + ${sess.id}" class="history-item list-group-item d-flex align-items-center gap-2">
+  <a class="flex-grow-1 text-truncate"
+     role="button"
+     tabindex="0"
+     th:hx-get="@{/chat/workspace(id=${sess.id})}"
+     hx-target="#chat-workspace"
+     hx-swap="innerHTML"
+     th:title="${sess.title}"
+     th:text="${sess.title}">Session title</a>
+  <span class="btn-group btn-group-sm" role="group" aria-label="Session actions">
+    <button type="button" class="btn btn-outline-secondary btn-xs" aria-label="Rename"
+            th:hx-get="@{/chat/history/{id}/edit(id=${sess.id})}"
+            hx-target="closest li"
+            hx-swap="outerHTML">&#9998;</button>
+    <button type="button" class="btn btn-outline-danger btn-xs" aria-label="Delete"
+            th:hx-delete="@{/chat/history/{id}(id=${sess.id})}"
+            hx-target="closest li"
+            hx-swap="delete"
+            hx-confirm="Delete this conversation and its messages?">&#10005;</button>
+  </span>
+</li>
+</body>
+</html>
